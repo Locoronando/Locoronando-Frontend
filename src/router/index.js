@@ -28,7 +28,8 @@ const routes = [
   {
     path: '/merchant/:id',
     name: 'Merchant',
-    component: () => import('../views/About.vue')
+    props: true,
+    component: () => import('../views/MerchantOverview.vue')
   },
   {
     path: '/merchant/:id/transactions',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="navbar container-fluid bg-light">
-        <span class=".navbar-brand col-1 font-weight-bold">Locoronando</span>
+        <a href="/" class=".navbar-brand col-1 font-weight-bold">Locoronando</a>
       <div class="nav-item search search-bar pr-sm-1">
         <div class=" form-inline">
           <b-form-input class="form-control mr-sm-2" @keydown.native="search" v-model="input" type="search" placeholder="Händler suchen" aria-label="Search" />
