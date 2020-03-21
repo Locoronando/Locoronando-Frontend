@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fixed-bottom">
       <hr />
       <h3># WirvsVirus</h3>
 

@@ -1,15 +1,19 @@
 <template>
   <div id="app">
+    <Overlay />
+    <Head />
     <router-view/>
     <Footer />
   </div>
 </template>
 
 <script>
+import Head from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
 export default {
   components: {
+    Head,
     Footer
   }
 }
