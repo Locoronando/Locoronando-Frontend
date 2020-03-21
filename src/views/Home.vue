@@ -1,6 +1,7 @@
 <template>
   <b-container>
     <b-modal @hide="validate" id="plz-modal" ref="modal" title="Willkommen" ok-only>
+      <div v-if="error" class="alert alert-danger"> {{ this.error }}</div>
       <b-form-input
         v-model.number="plz"
         type="number"
@@ -31,22 +32,32 @@ export default {
   name: 'Home',
   methods: {
     openMerchant (id) {
-      this.$router.push('/merchant/' + id)
+      this.$router.push(`/merchant/${id}`)
     },
     validate (bvModalEvt) {
       if (this.plz === undefined || this.plz.toString().length !== 5) {
+        this.error = 'Bitte gib eine gültige Postleitzahl ein!'
         bvModalEvt.preventDefault()
+      } else {
+        localStorage.setItem('plz', this.plz)
       }
     }
   },
   data () {
     return {
       plz: undefined,
+      error: '',
       merchants: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
   },
   mounted () {
-    this.$refs.modal.show()
+    const storedPlz = localStorage.getItem('plz')
+
+    if (storedPlz) {
+      this.plz = storedPlz
+    } else {
+      this.$refs.modal.show()
+    }
   }
 }
 </script>
