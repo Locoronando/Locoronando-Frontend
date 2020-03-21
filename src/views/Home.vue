@@ -1,19 +1,20 @@
 <template>
-  <div class="home">
+  <b-container class="home">
     <Overlay />
     <!--<b-button v-b-modal.welcomeModal>Launch demo modal</b-button>-->
-    <h4> Deine Postleizahl {{ getPlz() }}</h4>
+
+    <b-row><b-col><h3> Deine Postleizahl {{ getPlz() }}</h3></b-col></b-row>
     <b-card-group deck>
-      <div id="cards" class="col-6" v-for="mercant in getMerchants()" :key="mercant.id">
+      <div id="cards" class="col-sm-6" v-for="merchant in getMerchants()" :key="merchant.id">
         <b-card class="mb-4"
-        v-bind:title="'Händler ' + mercant.id"
+        v-bind:title="'Händler ' + merchant.id"
         sub-title="Pizzaria"
-        @click="openMerchant(mercant.id)">
+        @click="openMerchant(merchant.id)">
           <b-card-text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</b-card-text>
         </b-card>
       </div>
     </b-card-group>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -44,8 +45,8 @@ export default {
 </script>
 
 <style scoped>
-h4 {
-  padding-bottom:10px
+h3 {
+  padding-left:15px
 }
 
 </style>

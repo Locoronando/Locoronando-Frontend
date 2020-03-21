@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="navbar fixed-top container-fluid bg-light">
+    <div class="navbar container-fluid bg-light">
         <span class=".navbar-brand col-1 font-weight-bold">Locoronando</span>
       <div class="nav-item search search-bar pr-sm-1">
         <div class=" form-inline">

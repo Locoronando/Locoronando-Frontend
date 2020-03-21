@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed-bottom bg-light">
+  <div class=" bg-light">
       <hr />
       <h3># WirvsVirus</h3>
 

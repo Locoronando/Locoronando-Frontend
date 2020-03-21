@@ -26,7 +26,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 .placeholder {
-   padding: 40px 40px 60px 40px;
+   /* padding: 40px 40px 60px 40px; */
 }
 
 </style>
