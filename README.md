@@ -28,8 +28,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## Docker
 Falls du Docker auf deinem Server oder lokal installiert hast, kannst du folgende Befehle ausführen:
 
-1. Clonen: git clone https://github.com/Locoronando/Locoronando-Frontend.git
-2. Wechsle in den Ordner Locoronando-Frontend.
+1. Clonen: ``git clone https://github.com/Locoronando/Locoronando-Frontend.git``
+2. Wechsle in den Ordner ``Locoronando-Frontend``
 3. Image bauen: ``docker image build -t frontend:1.0.0``
 4. Container starten:
 ``
