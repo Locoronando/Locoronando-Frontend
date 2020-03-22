@@ -1,19 +1,25 @@
 <template>
-  <b-navbar variant="dark" toggleable="md">
-    <b-navbar-nav>
+  <b-navbar variant="dark" type="dark" toggleable="md">
+    <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
+    <b-collapse id="nav-text-collapse" is-nav>
+      <b-navbar-nav>
       <b-nav-item to="/">
         <h3>Locoronando</h3>
+      </b-nav-item>
+      <b-nav-item to="/register">
+        <b-nav-text>Registrieren</b-nav-text>
+      </b-nav-item>
+      <b-nav-item to="/login">
+        <b-nav-text>Login</b-nav-text>
       </b-nav-item>
     </b-navbar-nav>
     <b-navbar-nav class="ml-md-auto">
       <b-nav-form>
-        <b-form-input v-model="query" class="mb-2 mb-md-0 mr-md-2" placeholder="Suche Händler"></b-form-input>
+        <b-form-input v-model="this.query" class="mb-2 mb-md-0 mr-md-2" placeholder="Suche Händler"></b-form-input>
         <b-button @click.prevent="search" class="mb-1 mb-md-0">Suche</b-button>
       </b-nav-form>
-
-      <b-button class="my-1 my-md-0 mx-2">Register</b-button>
-      <b-button class="my-1 my-md-0 mx-2">Login</b-button>
     </b-navbar-nav>
+    </b-collapse>
   </b-navbar>
 </template>
 
