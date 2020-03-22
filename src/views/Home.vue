@@ -13,19 +13,20 @@
     <h3>Deine Postleitzahl: {{ this.plz }}</h3>
 
     <b-card-group deck>
-      <div id="cards" class="col-sm-6" v-for="id in this.merchants" :key="id">
-        <router-link :to="{ path: `/merchant/${id}` }">
+      <div id="cards" class="col-sm-6" v-for="merchant in this.merchants" :key="merchant.id">
+        <router-link :to="{ path: `/merchant/${merchant.id}` }">
           <b-card
           class="mb-4"
-          v-bind:title="'Händler-' + id"
-          sub-title="Pizzeria"
-          @click="openMerchant(id)"
+          :title="merchant.title"
+          :sub-title="merchant.subtitle"
         >
-          <b-card-text>Entfernung: 5.8 km</b-card-text>
+          <b-card-text>Entfernung: {{ merchant.distance }} km</b-card-text>
         </b-card>
         </router-link>
       </div>
     </b-card-group>
+
+    <b-pagination class="pagination" pills value="1" total-rows="100" limit="5" align="center"></b-pagination>
   </b-container>
 </template>
 
@@ -33,9 +34,6 @@
 export default {
   name: 'Home',
   methods: {
-    openMerchant (id) {
-      this.$router.push(`/merchant/${id}`)
-    },
     validate (bvModalEvt) {
       if (this.plz === undefined || this.plz.toString().length !== 5) {
         this.error = 'Bitte gib eine gültige Postleitzahl ein!'
@@ -49,7 +47,56 @@ export default {
     return {
       plz: undefined,
       error: '',
-      merchants: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      merchants: [
+        {
+          id: 1,
+          title: 'Pizzeria La Casetta',
+          subtitle: 'Pizzeria',
+          distance: 0.5
+        },
+        {
+          id: 2,
+          title: 'San Marco',
+          subtitle: 'Restaurant',
+          distance: 1.3
+        },
+        {
+          id: 3,
+          title: 'Thalia',
+          subtitle: 'Buchhandel',
+          distance: 1.5
+        },
+        {
+          id: 4,
+          title: 'Rewe',
+          subtitle: 'Supermarkt',
+          distance: 1.7
+        },
+        {
+          id: 5,
+          title: 'Aldi',
+          subtitle: 'Supermarkt',
+          distance: 2.1
+        },
+        {
+          id: 6,
+          title: 'Mikado Asian',
+          subtitle: 'Fast Food',
+          distance: 2.5
+        },
+        {
+          id: 7,
+          title: 'Aleco Biomarkt',
+          subtitle: 'Supermarkt',
+          distance: 2.7
+        },
+        {
+          id: 8,
+          title: 'Hol Ab',
+          subtitle: 'Getränkemarkt',
+          distance: 3.9
+        }
+      ]
     }
   },
   mounted () {
@@ -72,5 +119,10 @@ h3 {
 a, a:hover {
   color: #212529;
   text-decoration: none !important;
+}
+
+.pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>

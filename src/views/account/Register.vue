@@ -203,6 +203,9 @@ export default {
 
       if (!this.customerErrors.length) {
         console.log('Register customer: ' + JSON.stringify(this.customerForm))
+        localStorage.setItem('login', true)
+        localStorage.setItem('user', this.customerForm.firstname + ' ' + this.customerForm.surname)
+        this.$router.push('/')
       }
     },
     checkMerchantForm (event) {
