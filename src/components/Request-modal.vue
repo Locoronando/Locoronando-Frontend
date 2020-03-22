@@ -11,7 +11,7 @@
                 placeholder="Anfrage"
             />
         </b-col>
-        <b-col>
+        <b-col v-if="products">
             <ul>
             <li v-for="p in products" :key="p.product.id">
               {{ p.amount }} x {{ p.product.name }} a {{ p.product.prize }} €
@@ -36,7 +36,8 @@ export default {
       stompClient: null,
       id: 0,
       send_message: null,
-      connected: false
+      connected: false,
+      request: ''
     }
   },
   props: {
@@ -77,7 +78,7 @@ export default {
     sendMessage () {
       console.log('Send')
       if (this.stompClient && this.stompClient.connected) {
-        var msg = { message: this.request, send: true, type: 'PRODUCT', productId: 3 }
+        var msg = { message: this.request + JSON.stringify(this.products), send: true, type: 'PRODUCT', productId: 3 }
         this.stompClient.send('/send/' + this.merchant.id, JSON.stringify(msg), {})
       }
     },
