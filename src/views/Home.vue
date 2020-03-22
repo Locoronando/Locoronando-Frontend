@@ -14,14 +14,16 @@
 
     <b-card-group deck>
       <div id="cards" class="col-sm-6" v-for="id in this.merchants" :key="id">
-        <b-card
+        <router-link :to="{ path: `/merchant/${id}` }">
+          <b-card
           class="mb-4"
           v-bind:title="'Händler-' + id"
           sub-title="Pizzeria"
           @click="openMerchant(id)"
         >
-          <b-card-text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</b-card-text>
+          <b-card-text>Entfernung: 5.8 km</b-card-text>
         </b-card>
+        </router-link>
       </div>
     </b-card-group>
   </b-container>
@@ -65,5 +67,10 @@ export default {
 <style scoped>
 h3 {
   margin: 15px;
+}
+
+a, a:hover {
+  color: #212529;
+  text-decoration: none !important;
 }
 </style>
