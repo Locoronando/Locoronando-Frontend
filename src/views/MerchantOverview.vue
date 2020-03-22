@@ -46,7 +46,7 @@
               :title="product.name"
               :sub-title="product.prize + ' €'"
             >
-              <b-card-text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</b-card-text>
+              <b-card-text>{{ product.description }}</b-card-text>
             </b-card>
           </div>
         </b-card-group>
@@ -57,7 +57,7 @@
       </div>
     </b-row>
 
-    <button class="request-btn btn btn-success">Anfrage {{ items > 0 ? items : '' }}</button>
+    <button @click="createOrder" v-if="this.login" class="request-btn btn btn-success">Anfrage {{ items > 0 ? items : '' }}</button>
   </b-container>
 </template>
 
@@ -72,23 +72,14 @@ export default {
   data () {
     return {
       id: this.$route.params.id,
-      merchant: {
-        name: 'San Marco',
-        description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est ',
-        header: 'https://www.kurhaus-salinenparc.de/wp-content/uploads/2017/09/header-restaurant-bar.jpg',
-        address: {
-          street: 'Samplestreet 42',
-          city: '39221 Berlin'
-        },
-        phone: '+4981281283',
-        map: 'https://images-na.ssl-images-amazon.com/images/I/81AH5Xe0XXL._SX425_.jpg'
-      },
+      merchant: undefined,
       products: undefined,
       contentType: undefined,
       page: 1,
       maxPages: 0,
       cart: {},
-      items: 0
+      items: 0,
+      login: localStorage.getItem('login')
     }
   },
   methods: {
@@ -97,8 +88,36 @@ export default {
         this.page += i
       }
     },
-    loadMerchant () {
+    createOrder () {
+      this.$router.push('/order/1')
+    },
+    loadMerchant (id) {
       // get data from this.id
+      if (id === 1) {
+        this.merchant = {
+          name: 'Pizzeria La Casetta',
+          description: 'Restaurant mit schlichtem Interieur, traditioneller italienischer Küche und Spezialangeboten an 3 Wochentagen.',
+          header: 'https://pizzeria-casetta-bremen.snack-online.com/images/custom/thumb880/spaghetti_3547078_1920.jpg',
+          address: {
+            street: 'Meyerstraße 198',
+            city: '28201 Bremen'
+          },
+          phone: '0421 554762',
+          map: 'https://www.pflegesuche.de/map/staticmap.php?center=53.0952937,8.8093942&zoom=14&size=400x311&maptype=mapnik&markers=53.0952937,8.8093942,bullseye'
+        }
+      } else {
+        this.merchant = {
+          name: 'San Marco',
+          description: 'Riesige Auswahl an italienischen Speisen von Antipasti bis Dessert in rustikalem Restaurant mit üppigem Dekor.',
+          header: 'https://www.kurhaus-salinenparc.de/wp-content/uploads/2017/09/header-restaurant-bar.jpg',
+          address: {
+            street: 'Sonnenallee 42',
+            city: '39221 Berlin'
+          },
+          phone: '+49 812 812 83',
+          map: 'https://images-na.ssl-images-amazon.com/images/I/81AH5Xe0XXL._SX425_.jpg'
+        }
+      }
     },
     addToCart (id) {
       if (this.cart[id] !== undefined) {
@@ -108,22 +127,50 @@ export default {
       }
       this.items++
     },
-    loadProducts () {
-      // this.contentType = 'application/pdf'
-      // this.products = { pdf: 'https://pizzeria-ristorante-san-marco.de/dokumente/speisekarte.pdf' }
-      this.contentType = 'application/json'
-      this.products = [
-        { id: 1, name: 'Test 1', prize: '128' },
-        { id: 2, name: 'Test 2', prize: '128' },
-        { id: 3, name: 'Test 3', prize: '128' },
-        { id: 4, name: 'Test 4', prize: '128' },
-        { id: 5, name: 'Test 5', prize: '128' }
-      ]
+    loadProducts (id) {
+      if (id === 1) {
+        this.contentType = 'application/json'
+        this.products = [
+          {
+            id: 1,
+            name: 'Pizza Margherita',
+            prize: '4.00',
+            description: 'Belegt wird sie mit Tomatensauce, Mozzarella und ein paar frischen Basilikumblättern. So einfach und so lecker!'
+          },
+          {
+            id: 2,
+            name: 'Pizza Salami',
+            prize: '5.00',
+            description: 'Pizza aus frischem Teigboden, mit Tomatensauce, Salami und Goudakäse.'
+          },
+          {
+            id: 3,
+            name: 'Pizza Tonno',
+            prize: '5.50',
+            description: 'Pizza aus frischem Teigboden, mit Tomatensauce, Thunfisch, Zwiebeln und Goudakäse'
+          },
+          {
+            id: 4,
+            name: 'Pizza Prosciutto',
+            prize: '5.00',
+            description: 'Pizza aus frischem Teigboden, mit Tomatensauce, Hinterschinken und Goudakäse.'
+          },
+          {
+            id: 5,
+            name: 'Pizza Gourmet',
+            prize: '7.50',
+            description: 'Pizza aus frischem Teigboden mit Sauce Hollandaise, Lachswürfeln, Spinat, würzigem Hirtenkäse, Knoblauch und Goudakäse.'
+          }
+        ]
+      } else {
+        this.contentType = 'application/pdf'
+        this.products = { pdf: 'https://pizzeria-ristorante-san-marco.de/dokumente/speisekarte.pdf' }
+      }
     }
   },
   beforeMount () {
-    this.loadMerchant()
-    this.loadProducts()
+    this.loadMerchant(Number(this.$route.params.id))
+    this.loadProducts(Number(this.$route.params.id))
   }
 }
 </script>
