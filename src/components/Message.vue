@@ -2,12 +2,14 @@
 <template>
     <div class="field">
       <b-row>
-        <b-col v-if="isSend" />
-        <b-col  class="message m-1 ml-3" v-bind:class="{  send : isSend}">
-            <div class="text" v-bind:class="{  right : isSend}">{{message.message}}</div>
-            <span>{{message.date}}</span>
+        <b-col v-if="message.send" />
+        <b-col  class="message m-1 ml-3" v-bind:class="{  send : message.send}">
+            <div class="text" v-bind:class="{  right : message.send}">
+              {{message.message}}<br />
+            </div>
+            <span v-bind:class="{  right : message.send}" class="time">{{message.time}}</span>
         </b-col>
-        <b-col v-if="!isSend" />
+        <b-col v-if="!message.send" />
       </b-row>
     </div>
 </template>
@@ -16,8 +18,7 @@
 export default {
   name: 'Message',
   props: {
-    message: Object,
-    isSend: Boolean
+    message: Object
   },
   methods: {
     getUser (id) {
@@ -40,7 +41,7 @@ export default {
     width: 95%;
 }
 .send{
-    border: solid #ecb671 1px;
+    border: solid #671ecb 1px;
 }
 
 .text{
@@ -52,5 +53,9 @@ export default {
 .text.right{
     text-align: right;
     padding-right: 10px;
+}
+.time {
+  font-size: x-small;
+  color: #A9A9A9;
 }
 </style>

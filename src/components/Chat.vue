@@ -3,7 +3,7 @@
     <b-col id="chat" >
       <div id="messages">
         <div v-for="message in messages" :key="message.message">
-            <Message  :message="message" :isSend="isSend(message)"></Message>
+            <Message  :message="message"></Message>
         </div>
       </div>
       <b-form-input class="input m-2" ref="input" type="text" v-on:keyup.enter="sendMessage" v-model="input" placeholder="Nachricht" />
@@ -32,10 +32,10 @@ export default {
     }
   },
   props: {
-    user: String,
-    partner: String
+    user: String
   },
   created: function () {
+    window.addEventListener('beforeunload', this.disconnect)
     console.log(this.user)
     this.id = this.$route.params.id
     this.loadMessages()
@@ -52,7 +52,7 @@ export default {
     },
     loadMessages () {
       // axios.get( window.location.href.split('#')[0] + 'chat/' + this.id).then(res => {
-      this.messages = [{ message: 'Hallo, ich bin ein Kunde.', type: 'PRODUCT', productId: 3 }]
+      this.messages = []
       this.scrollDown()
       // }).catch(error => console.log(error))
     },
@@ -69,7 +69,10 @@ export default {
           this.stompClient.subscribe('/user/queue/message/new', tick => {
             console.log('New Msg')
             console.log(tick)
-            this.messages.push({ message: 'Neue Nachricht', type: 'PRODUCT', productId: 3 })
+            var msg = JSON.parse(tick.body)
+            msg.send = false
+            msg.time = this.getTime()
+            this.messages.push(msg)
           })
         },
         error => {
@@ -81,9 +84,6 @@ export default {
     getInfo () {
       this.info = {}
     },
-    isSend (message) {
-      return this.user.role === 'user'
-    },
     register () {
       if (this.stompClient && this.stompClient.connected) {
         var msg = ''
@@ -93,7 +93,7 @@ export default {
           msg = { participant: 'DEALER', id: 1 }
         }
         this.stompClient.send('/register', JSON.stringify(msg), {})
-        this.messages.push({ message: 'Willkommen', type: 'PRODUCT', productId: 3 })
+        this.messages.push({ message: 'Willkommen', send: false, type: 'PRODUCT', productId: 3 })
         this.input = ''
       }
     },
@@ -101,8 +101,9 @@ export default {
       console.log('Send')
       if (this.stompClient && this.stompClient.connected) {
         // var msg = { id: 4, text: this.input, user: { id: 1, name: 'Oli' } }
-        var msg = { message: this.input, type: 'PRODUCT', productId: 3 }
+        var msg = { message: this.input, send: true, type: 'PRODUCT', productId: 3 }
         this.stompClient.send('/send/' + 1, JSON.stringify(msg), {})
+        msg.time = this.getTime()
         this.messages.push(msg)
         this.input = ''
       }
@@ -115,6 +116,10 @@ export default {
     },
     tickleConnection () {
       this.connected ? this.disconnect() : this.connect()
+    },
+    getTime () {
+      var time = new Date()
+      return time.getHours() + ':' + time.getMinutes()
     }
   },
   beforeDestroy () {

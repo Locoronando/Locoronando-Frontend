@@ -6,7 +6,7 @@
     </select>
     <b-row class="mt-1">
       <b-col cols="8" >
-        <h2>Order-Nr.: {{id}}</h2>
+        <h2>Order-Nr.: 1</h2>
       </b-col>
       <b-col cols="4" class="float-right" v-if="user.role === 'merchant' && order.status !== 5">
         Status:
@@ -60,7 +60,7 @@
       <b-col md="5">
         <b-btn class="m-2" block v-b-toggle.chatCol variant="secondary">Nachrichten</b-btn>
         <b-collapse class="mycollapse" id="chatCol">
-          <Chat :user="id" :partner="id === order.merchant.id ? order.customer.id : order.merchant.id" />
+          <Chat :user="id" />
         </b-collapse>
       </b-col>
     </b-row>
@@ -75,7 +75,7 @@ export default {
     return {
       user: {
         id: 1,
-        role: 'merchant'
+        role: 'DEALER'
       },
       order: {
         status: 4,
@@ -106,9 +106,9 @@ export default {
     },
     changeUser (event) {
       if (this.type === 'Kunde') {
-        this.user = { id: 2, role: 'user' }
+        this.user = { id: 1, role: 'CUSTOMER' }
       } else {
-        this.user = { id: 1, role: 'merchant' }
+        this.user = { id: 1, role: 'DEALER' }
       }
     }
   },
