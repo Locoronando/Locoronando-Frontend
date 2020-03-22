@@ -1,52 +1,76 @@
 <template>
-  <b-container class="home">
-    <Overlay />
-    <!--<b-button v-b-modal.welcomeModal>Launch demo modal</b-button>-->
+  <b-container>
+    <b-modal @hide="validate" id="plz-modal" ref="modal" title="Willkommen" ok-only>
+      <div v-if="error" class="alert alert-danger"> {{ this.error }}</div>
+      <b-form-input
+        v-model.number="plz"
+        type="number"
+        class="form-control mr-sm-2"
+        placeholder="Postleitzahl"
+      />
+    </b-modal>
 
-    <b-row><b-col><h3> Deine Postleizahl {{ getPlz() }}</h3></b-col></b-row>
+    <h3>Deine Postleitzahl: {{ this.plz }}</h3>
+
     <b-card-group deck>
-      <div id="cards" class="col-sm-6" v-for="merchant in getMerchants()" :key="merchant.id">
-        <b-card class="mb-4"
-        v-bind:title="'Händler ' + merchant.id"
-        sub-title="Pizzaria"
-        @click="openMerchant(merchant.id)">
-          <b-card-text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</b-card-text>
+      <div id="cards" class="col-sm-6" v-for="id in this.merchants" :key="id">
+        <router-link :to="{ path: `/merchant/${id}` }">
+          <b-card
+          class="mb-4"
+          v-bind:title="'Händler-' + id"
+          sub-title="Pizzeria"
+          @click="openMerchant(id)"
+        >
+          <b-card-text>Entfernung: 5.8 km</b-card-text>
         </b-card>
+        </router-link>
       </div>
     </b-card-group>
   </b-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import Overlay from '@/components/PlzOverlay.vue'
-
 export default {
   name: 'Home',
   methods: {
-    getPlz () {
-      return 70283
-    },
-    getMerchants () {
-      return [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }]
-    },
     openMerchant (id) {
-      console.log(id)
-      this.$router.push('/merchant/' + id)
+      this.$router.push(`/merchant/${id}`)
+    },
+    validate (bvModalEvt) {
+      if (this.plz === undefined || this.plz.toString().length !== 5) {
+        this.error = 'Bitte gib eine gültige Postleitzahl ein!'
+        bvModalEvt.preventDefault()
+      } else {
+        localStorage.setItem('plz', this.plz)
+      }
     }
   },
-  components: {
-    Overlay
+  data () {
+    return {
+      plz: undefined,
+      error: '',
+      merchants: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    }
   },
   mounted () {
-    // this.$refs.welcomeModal.show()
+    const storedPlz = localStorage.getItem('plz')
+
+    if (storedPlz) {
+      this.plz = storedPlz
+    } else {
+      this.$refs.modal.show()
+    }
   }
 }
 </script>
 
 <style scoped>
 h3 {
-  padding-left:15px
+  margin: 15px;
 }
 
+a, a:hover {
+  color: #212529;
+  text-decoration: none !important;
+}
 </style>
