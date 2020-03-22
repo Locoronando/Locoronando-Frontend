@@ -57,7 +57,7 @@
       </div>
     </b-row>
 
-    <button v-if="this.login" class="request-btn btn btn-success">Anfrage {{ items > 0 ? items : '' }}</button>
+    <button @click="createOrder" v-if="this.login" class="request-btn btn btn-success">Anfrage {{ items > 0 ? items : '' }}</button>
   </b-container>
 </template>
 
@@ -88,6 +88,9 @@ export default {
         this.page += i
       }
     },
+    createOrder () {
+      this.$router.push('/order/1')
+    },
     loadMerchant (id) {
       // get data from this.id
       if (id === 1) {
@@ -100,7 +103,7 @@ export default {
             city: '28201 Bremen'
           },
           phone: '0421 554762',
-          map: 'https://images-na.ssl-images-amazon.com/images/I/81AH5Xe0XXL._SX425_.jpg'
+          map: 'https://www.pflegesuche.de/map/staticmap.php?center=53.0952937,8.8093942&zoom=14&size=400x311&maptype=mapnik&markers=53.0952937,8.8093942,bullseye'
         }
       } else {
         this.merchant = {

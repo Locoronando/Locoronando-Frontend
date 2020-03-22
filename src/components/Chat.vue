@@ -57,7 +57,7 @@ export default {
       // }).catch(error => console.log(error))
     },
     connect () {
-      this.socket = new SockJS('http://localhost:8080/socket-registry')
+      this.socket = new SockJS('http://173.193.102.115:31353/socket-registry')
       this.stompClient = Stomp.over(this.socket)
       console.log('Connect')
       this.stompClient.connect(
