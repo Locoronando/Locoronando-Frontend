@@ -1,5 +1,8 @@
 <template>
   <b-container>
+
+    <requestModal :products="cart" :merchant="merchant" :customer="user" />
+
     <b-row v-if="this.merchant.header" class="my-4">
       <img class="col-12" :src="this.merchant.header" />
     </b-row>
@@ -42,7 +45,7 @@
           <div id="cards" class="col-sm-3" v-for="product in products" :key="product.id">
             <b-card
               class="mb-4"
-              @click="addToCart(product.id)"
+              @click="addToCart(product)"
               :title="product.name"
               :sub-title="product.prize + ' €'"
             >
@@ -57,29 +60,31 @@
       </div>
     </b-row>
 
-    <button @click="createOrder" v-if="this.login" class="request-btn btn btn-success">Anfrage {{ items > 0 ? items : '' }}</button>
+    <button class="request-btn btn btn-success" v-b-modal.requestModal >Anfrage {{ items > 0 ? items : '' }}</button>
   </b-container>
 </template>
 
 <script>
 import Pdf from 'vue-pdf'
-
+import requestModal from '@/components/Request-modal.vue'
 export default {
   name: 'Overview',
   components: {
-    Pdf
+    Pdf,
+    requestModal
   },
   data () {
     return {
       id: this.$route.params.id,
       merchant: undefined,
-      products: undefined,
+      products: [],
       contentType: undefined,
       page: 1,
       maxPages: 0,
       cart: {},
       items: 0,
-      login: localStorage.getItem('login')
+      login: localStorage.getItem('login'),
+      user: { id: 1, name: 'Max' }
     }
   },
   methods: {
@@ -89,7 +94,7 @@ export default {
       }
     },
     createOrder () {
-      this.$router.push('/order/1')
+      // this.push('/order/1')
     },
     loadMerchant (id) {
       // get data from this.id
@@ -119,11 +124,11 @@ export default {
         }
       }
     },
-    addToCart (id) {
-      if (this.cart[id] !== undefined) {
-        this.cart[id] += 1
+    addToCart (product) {
+      if (this.cart[product.id] !== undefined) {
+        this.cart[product.id].amount += 1
       } else {
-        this.cart[id] = 1
+        this.cart[product.id] = { product: product, amount: 1 }
       }
       this.items++
     },

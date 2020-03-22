@@ -12,6 +12,9 @@
       <b-nav-item to="/login">
         <b-nav-text>Login</b-nav-text>
       </b-nav-item>
+      <b-nav-item v-if="this.login" to="/transactions">
+        <b-nav-text>Bestellungen</b-nav-text>
+      </b-nav-item>
     </b-navbar-nav>
     <b-navbar-nav class="ml-md-auto">
       <b-nav-form>
@@ -33,7 +36,8 @@ export default {
   },
   data () {
     return {
-      query: ''
+      query: '',
+      login: localStorage.getItem('login')
     }
   }
 }

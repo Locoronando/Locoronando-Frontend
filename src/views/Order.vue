@@ -2,7 +2,7 @@
   <b-container class="mt-4">
     <b-row style="justify-content: space-betweem">
       <b-col cols="8" >
-        <h2>Order-Nr.: 1</h2>
+        <h2>Order-Nr.: {{ id }}</h2>
       </b-col>
       <b-col cols="4" v-if="user.role === 'DEALER' && order.status !== 5" align-h="end">
         Status:
