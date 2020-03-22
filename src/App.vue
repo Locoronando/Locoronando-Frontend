@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view />
-    <Footer />
+    <router-view class="view"/>
+    <Footer class="footer"/>
   </div>
 </template>
 
@@ -19,11 +19,24 @@ export default {
 </script>
 
 <style>
+html, body, #app {
+  height: 100%;
+}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  flex-direction: column;
 }
 
+.view {
+  flex: 1 0 auto;
+}
+
+.footer {
+  flex-shrink: 0;
+}
 </style>

@@ -1,6 +1,5 @@
 <template>
-  <div class="bg-light">
-    <hr />
+  <div class="bg-light pt-4">
     <h3>#WirvsVirus</h3>
 
     <ul>
